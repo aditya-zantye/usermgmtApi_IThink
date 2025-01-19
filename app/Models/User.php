@@ -48,9 +48,12 @@ class User extends Authenticatable
         }
     }
 
-    public function fetchUserQuery($email){
+    public function fetchUserQuery($email = null, $employee_code = null){
         try{
-            return self::where('email', $email)->where('status',1)->first();
+            return self::where('email', $email)
+            ->orWhere('employee_code', $employee_code)
+            ->where('status',1)
+            ->first();
         }
         catch(Exception $e){
             Log::error([

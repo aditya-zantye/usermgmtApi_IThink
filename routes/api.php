@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +35,7 @@ Route::get('/test-db', function () {
 Route::post("/register",[AuthController::class, 'userCreateMethod'])->name('user_register');
 Route::post("/login", [AuthController::class, 'userLoginMethod'])->name('user_login');
 
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Protected Routes which require bearer token
+Route::middleware('auth:sanctum')->group(function(){
+    Route::post("/profile", [UserController::class, 'userDetailMethod'])->name('user_detail');
 });
