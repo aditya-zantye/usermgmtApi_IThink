@@ -1,0 +1,34 @@
+# Laravel Specific
+/vendor
+/node_modules
+/.env
+/.idea
+/.vscode
+/public/storage
+/storage/*.key
+
+# Composer and NPM
+composer.lock
+package-lock.json
+
+# Environment and IDE Files
+/.env
+/.vscode/
+/.idea/
+/*.sublime-workspace
+/*.sublime-project
+
+# Laravel Logs
+/storage/*.log
+
+# MacOS
+.DS_Store
+
+# Other temporary or system files
+*.bak
+*.swp
+*.log
+
+# Test output
+/phpunit.xml
+/phpunit.xml.dist
