@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\AuthService;
+use App\Validators\ApiValidator;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -18,6 +19,15 @@ class AuthController extends Controller
     // USER-REGISTRATION
     public function userCreateMethod(Request $request){
         try{
+            $validator = ApiValidator::validateUserRegistration($request->all());
+            if($validator->fails()){
+                return response()->json([
+                    'status' => false,
+                    'message' => "User registration validation failed",
+                    'data' => $validator->errors()
+                ]);
+            }
+
             $data = [
                 'name' => $request->input('name') ?? '',
                 'email' => $request->input('email') ?? '',
