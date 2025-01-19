@@ -33,4 +33,27 @@ class ApiValidator
 
         return Validator::make($data,$rules,$messages);
     }
+
+    public static function validateUpdateUser($data){
+        $rules = [
+            'name' => 'nullable|string|max:255',
+            'email' => 'nullable|email|unique:users,email',
+            'password' => [
+                'nullable',
+                'string',
+                'min:6',
+                'max:15',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$/'
+            ]
+        ];
+
+        $messages = [
+            'email.unique' => 'Employee email is already registered',
+            'password.min' => 'The password must be at least 6 characters.',
+            'password.max' => 'The password may not be greater than 15 characters.',
+            'password.regex' => 'The password must include at least one uppercase letter, one lowercase letter, one digit, and one special character.',
+        ];
+
+        return Validator::make($data,$rules,$messages);
+    }
 }

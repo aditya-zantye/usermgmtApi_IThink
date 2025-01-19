@@ -20,6 +20,15 @@ class UserController extends Controller
         try{
 
             $employee_code = $request->input('employee_code') ?? Auth::user()->employee_code;
+            $employeeRole = Auth::user()->role;
+            if($employeeRole !== 'admin' && $employee_code !== Auth::user()->employee_code){
+                return response()->json([
+                    'status' => false,
+                    'message' => "You are not allowed to view profile of other user",
+                    'data' => []
+                ],401);
+            }
+
             $getUserDetails = $this->userService->fetchUserDetailsService($employee_code);
             return response()->json([
                 'status' => !empty($getUserDetails) ? true : false,

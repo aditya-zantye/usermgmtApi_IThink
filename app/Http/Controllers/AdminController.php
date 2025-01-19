@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\AdminService;
+use App\Validators\ApiValidator;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -29,6 +30,41 @@ class AdminController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => "Something went wrong while showing user list",
+                'data' => []
+            ],500);
+        }
+    }
+
+    public function updateUserMethod(Request $request){
+        try{
+
+            $validator = ApiValidator::validateUpdateUser($request->all());
+            if($validator->fails()){
+                return response()->json([
+                    'status' => false,
+                    'message' => "Update user validation failed",
+                    'data' => $validator->errors()
+                ]);
+            }
+
+            $data = [
+                'name' => $request->input('name') ?? '',
+                'email' => $request->input('email') ?? '',
+                'password' => $request->input('password') ?? ''
+            ];
+            $employee_code = $request->input('employee_code') ?? '';
+            $updateUser = $this->adminService->updateUserService($data, $employee_code);
+            return response()->json([
+                'status' => $updateUser['status'],
+                'message' => $updateUser['message'],
+                'data' => $updateUser['data']
+            ]);
+        }
+        catch(Exception $e){
+            Log::error("Something whent wrong while updating the user: ".$e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => "Something went wrong while updating the user",
                 'data' => []
             ],500);
         }

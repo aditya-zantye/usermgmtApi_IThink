@@ -42,5 +42,6 @@ Route::middleware('auth:sanctum')->group(function(){
 
     Route::middleware('admin')->group(function(){
         Route::post('/allusers', [AdminController::class, 'viewAllUsersMethod'])->name('view_all_users');
+        Route::post("/update", [AdminController::class, 'updateUserMethod'])->name('update_user');
     });
 });
