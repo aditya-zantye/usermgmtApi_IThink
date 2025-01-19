@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -38,4 +39,8 @@ Route::post("/login", [AuthController::class, 'userLoginMethod'])->name('user_lo
 // Protected Routes which require bearer token
 Route::middleware('auth:sanctum')->group(function(){
     Route::post("/profile", [UserController::class, 'userDetailMethod'])->name('user_detail');
+
+    Route::middleware('admin')->group(function(){
+        Route::post('/allusers', [AdminController::class, 'viewAllUsersMethod'])->name('view_all_users');
+    });
 });

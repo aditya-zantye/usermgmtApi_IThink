@@ -22,7 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
-        'employee_code'
+        'employee_code',
+        'role'
     ];
 
 
@@ -60,6 +61,16 @@ class User extends Authenticatable
                 'status' => false,
                 'message' => "Something went wrong while fetching the user: ".$e->getMessage()
             ]);
+            return collect();
+        }
+    }
+
+    public function fetchAllUsersQuery(){
+        try{
+            return self::where('role','user')->get();
+        }
+        catch(Exception $e){
+            Log::error("Something went wrong while fetching all users query: ".$e->getMessage());
             return collect();
         }
     }
