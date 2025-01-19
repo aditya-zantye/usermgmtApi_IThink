@@ -32,6 +32,7 @@ Route::get('/test-db', function () {
 });
 
 Route::post("/register",[AuthController::class, 'userCreateMethod'])->name('user_register');
+Route::post("/login", [AuthController::class, 'userLoginMethod'])->name('user_login');
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

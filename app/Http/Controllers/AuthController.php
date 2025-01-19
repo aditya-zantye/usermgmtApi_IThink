@@ -44,4 +44,35 @@ class AuthController extends Controller
             ]);
         }
     }
+
+    // USER-LOGIN
+    public function userLoginMethod(Request $request){
+        try{
+            $data = [
+                'email' => $request->input('email') ?? '',
+                'password' => $request->input('password') ?? ''
+            ];
+            $loginUser = $this->authService->userLoginService($data);
+            return response()->json([
+                'status' => $loginUser['status'],
+                'message' => $loginUser['message'],
+                'data' => $loginUser['data']
+            ]);
+
+        }
+        catch(Exception $e){
+            Log::error([
+                'status' => false,
+                'message' => "Something went wrong while logging in user",
+                'data' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'status' => false,
+                'message' => "Something went wrong while logging in user",
+                'data' => $e->getMessage()
+            ],500);
+        }
+    }
+
 }

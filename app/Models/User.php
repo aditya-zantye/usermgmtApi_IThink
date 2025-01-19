@@ -47,4 +47,19 @@ class User extends Authenticatable
             return false;
         }
     }
+
+    public function fetchUserQuery($email){
+        try{
+            return self::where('email', $email)->where('status',1)->first();
+        }
+        catch(Exception $e){
+            Log::error([
+                'status' => false,
+                'message' => "Something went wrong while fetching the user: ".$e->getMessage()
+            ]);
+            return collect();
+        }
+    }
+
+
 }
